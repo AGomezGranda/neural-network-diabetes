@@ -70,6 +70,10 @@ class NeuralNetwork:
         self.n = 0
         self.costs = []
 
+    def get_params(self):
+        return self.parameters
+    
+
     
 
     
