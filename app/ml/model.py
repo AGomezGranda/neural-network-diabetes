@@ -47,4 +47,29 @@ class NeuralNetwork:
             self.parameters[f"W{l}"] -= learning_rate * grads[f"dW{l}"]
             self.parameters[f"b{l}"] -= learning_rate * grads[f"db{l}"]
 
+    def train(self, X, Y, iterations=1000, learning_rate=0.01):
+        for i in range(iterations):
+            AL = self.forward_propagation(X)
+            cost = self.compute_cost(AL, Y)
+            grads = self.backward_propagation(X, Y)
+            self.update_parameters(grads, learning_rate)
+            if i % 100 == 0:
+                print(f"Iteration {i}, Cost: {cost}")
+                self.costs.append(cost)
+
+    def predict(self, X):
+        return np.round(self.forward_propagation(X))
+    
+    def save_model(self, file_path):
+        np.save(file_path, self.parameters)
+
+    def load_model(self, file_path):
+        self.parameters = np.load(file_path, allow_pickle=True).item()
+        self.L = len(self.parameters) // 2 - 1
+        self.layer_sizes = [self.parameters[f"W{l}"].shape[1] for l in range(1, self.L + 1)] + [self.parameters[f"W{self.L+1}"].shape[0]]
+        self.n = 0
+        self.costs = []
+
+    
+
     
