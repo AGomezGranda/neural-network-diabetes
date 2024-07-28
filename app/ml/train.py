@@ -15,7 +15,7 @@ def train_model():
     model = NeuralNetwork([X_train.shape[0], 10, 5, 1])
     
     # Entrenar el modelo
-    model.train(X_train, y_train, iterations=1000, learning_rate=0.1)
+    model.train(X_train, y_train, iterations=5000, learning_rate=0.01)
     
     # Verificar que el directorio para guardar el modelo exista
     #os.makedirs(os.path.dirname('model.npy'), exist_ok=True)

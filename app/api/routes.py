@@ -1,25 +1,33 @@
+# app/api/v1/endpoints.py
 from fastapi import APIRouter, HTTPException
-from ml import model
+from ml.model import NeuralNetwork
 from core.models import PredictionRequest, PredictionResponse
+import joblib
+import numpy as np
 
 router = APIRouter()
 
-# hello route
-@router.get("/hello")
-async def hello():
-    return {"message": "Hello World"}
+# Inicializar el modelo y cargar los parámetros entrenados
+model = NeuralNetwork([8, 10, 5, 1])
+model.load_model('model.npy')
 
-# preduction route
+# Cargar el escalador guardado
+scaler = joblib.load('scaler.pkl')
+
+
 @router.post("/predict", response_model=PredictionResponse)
 async def predict(request: PredictionRequest):
     try:
-        # Lógica de predicción aquí
-        prediction = model.predict(request.features)
-        return PredictionResponse(prediction=prediction)
+        features = np.array(request.features).reshape(1, -1)
+        # Normalizar los datos de entrada
+        features = scaler.transform(features)
+        features = features.T  # Transponer para que tenga la forma adecuada para el modelo
+        prediction = model.predict(features)
+        return PredictionResponse(prediction=float(prediction[0, 0]))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# model info route
+
 @router.get("/model-info")
 async def model_info():
     return {"model": "Neural Network", "parameters": model.get_params()}

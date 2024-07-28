@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+import joblib
 
 
 def load_and_preprocess_data(file_path):
@@ -41,6 +42,9 @@ def load_and_preprocess_data(file_path):
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
+
+    # Guardar el escalador
+    joblib.dump(scaler, 'scaler.pkl')
 
     # Transponer X para que las columnas sean las características y las filas los ejemplos
     X_train = X_train.T
