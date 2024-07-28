@@ -1,5 +1,6 @@
 # app/api/v1/endpoints.py
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import HTMLResponse
 from ml.model import NeuralNetwork
 from core.models import PredictionRequest, PredictionResponse
 import joblib
@@ -14,6 +15,11 @@ model.load_model('model.npy')
 # Cargar el escalador guardado
 scaler = joblib.load('scaler.pkl')
 
+
+@router.get("/", response_class=HTMLResponse)
+async def main():
+    with open("client/index.html") as f:
+        return HTMLResponse(content=f.read(), status_code=200)
 
 @router.post("/predict", response_model=PredictionResponse)
 async def predict(request: PredictionRequest):
