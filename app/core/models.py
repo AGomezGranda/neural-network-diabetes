@@ -1,9 +1,9 @@
-from pydantic import BaseModel
-from typing import List
+from pydantic import BaseModel, Field
+from typing import List, Optional
 
 
 class PredictionRequest(BaseModel):
-    features: List[float]
+    features: list
 
 
 class PredictionResponse(BaseModel):

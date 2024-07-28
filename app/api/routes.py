@@ -21,6 +21,7 @@ async def main():
     with open("client/index.html") as f:
         return HTMLResponse(content=f.read(), status_code=200)
 
+
 @router.post("/predict", response_model=PredictionResponse)
 async def predict(request: PredictionRequest):
     try:

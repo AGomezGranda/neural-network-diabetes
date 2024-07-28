@@ -1,66 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diabetes Prediction</title>
+    <script
+      src="https://unpkg.com/htmx.org@2.0.1"
+      integrity="sha384-QWGpdj554B4ETpJJC9z+ZHJcA/i59TyjxEPXiiUgN2WmTyV5OEZWCD6gQhgkdpB/"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <h1>Diabetes Prediction</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diabetes Neural Network</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.5.0"></script>
-</head>
+    <!-- link to github -->
+    <a
+      href="https://github.com/AGomezGranda/neural-network-diabetes"
+      hx-get="/github"
+      hx-swap="outerHTML"
+      >View on GitHub</a
+    >
 
-<body>
+    <p>Enter the following details to predict diabetes:</p>
 
-    <div>
-        <div class="bg-blue-500 text-white py-4 flex items-center justify-between px-4">
-            <h1 class="text-2xl font-bold">Diabetes Neural Network</h1>
-            <a href="https://github.com/AGomezGranda/neural-network-diabetes">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" class="w-6 h-6">
-            </a>
-        </div>
-    </div>
+    <form id="predictionForm" onsubmit="submitForm(event)">
+      <label for="pregnancies" style="margin: 5px">Pregnancies:</label>
+      <input
+        type="number"
+        id="pregnancies"
+        name="features"
+        style="margin: 5px"
+        required
+      /><br />
 
-    <div class="container mx-auto mt-8">
-        <form hx-post="/predict" hx-target="#result" class="space-y-4">
-            <div>
-                <label for="pregnancies" class="block text-sm font-medium text-gray-700">Pregnancies</label>
-                <input type="number" id="pregnancies" name="pregnancies" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
-            <div>
-                <label for="glucose" class="block text-sm font-medium text-gray-700">Glucose</label>
-                <input type="number" id="glucose" name="glucose" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
-            <div>
-                <label for="bloodPressure" class="block text-sm font-medium text-gray-700">Blood Pressure</label>
-                <input type="number" id="bloodPressure" name="bloodPressure" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
-            <div>
-                <label for="skinThickness" class="block text-sm font-medium text-gray-700">Skin Thickness</label>
-                <input type="number" id="skinThickness" name="skinThickness" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
-            <div>
-                <label for="insulin" class="block text-sm font-medium text-gray-700">Insulin</label>
-                <input type="number" id="insulin" name="insulin" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
-            <div>
-                <label for="bmi" class="block text-sm font-medium text-gray-700">BMI</label>
-                <input type="number" step="0.1" id="bmi" name="bmi" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
-            <div>
-                <label for="diabetesPedigreeFunction" class="block text-sm font-medium text-gray-700">Diabetes Pedigree Function</label>
-                <input type="number" step="0.01" id="diabetesPedigreeFunction" name="diabetesPedigreeFunction" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
-            <div>
-                <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
-                <input type="number" id="age" name="age" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
-            <div>
-                <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Submit</button>
-            </div>
-        </form>
-        <div id="result" class="mt-4"></div>
-    </div>
-</body>
+      <label for="glucose" style="margin: 5px">Glucose:</label>
+      <input
+        type="number"
+        id="glucose"
+        name="features"
+        style="margin: 5px"
+        required
+      /><br />
 
+      <label for="blood_pressure" style="margin: 5px">Blood Pressure:</label>
+      <input
+        type="number"
+        id="blood_pressure"
+        name="features"
+        style="margin: 5px"
+        required
+      /><br />
+
+      <label for="skin_thickness" style="margin: 5px">Skin Thickness:</label>
+      <input
+        type="number"
+        id="skin_thickness"
+        name="features"
+        style="margin: 5px"
+        required
+      /><br />
+
+      <label for="insulin" style="margin: 5px">Insulin:</label>
+      <input
+        type="number"
+        id="insulin"
+        name="features"
+        style="margin: 5px"
+        required
+      /><br />
+
+      <label for="bmi" style="margin: 5px">BMI:</label>
+      <input
+        type="number"
+        id="bmi"
+        name="features"
+        style="margin: 5px"
+        required
+      /><br />
+
+      <label for="dpf" style="margin: 5px">Diabetes Pedigree Function:</label>
+      <input
+        type="number"
+        id="dpf"
+        name="features"
+        style="margin: 5px"
+        required
+      /><br />
+
+      <label for="age" style="margin: 5px">Age:</label>
+      <input
+        type="number"
+        id="age"
+        name="features"
+        style="margin: 5px"
+        required
+      /><br />
+
+      <button
+        type="submit"
+        style=" margin: 5px; padding: 10px 20px; background: #333; color: #fff; text-align: center; text-decoration: none;" >
+        Predict
+      </button>
+
+    </form>
+
+    <div id="result" style="margin: 5px"></div>
+
+    <script>
+      function submitForm(event) {
+        event.preventDefault();
+
+        const form = document.getElementById("predictionForm");
+        const formData = new FormData(form);
+        const features = [];
+
+        for (const [key, value] of formData.entries()) {
+          features.push(parseFloat(value));
+        }
+
+        const data = { features: features };
+
+        fetch("/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((result) => {
+            document.getElementById(
+              "result"
+            ).innerHTML = `<p>Prediction: ${result.prediction}</p>`;
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            document.getElementById(
+              "result"
+            ).innerHTML = `<p>Error: ${error.message}</p>`;
+          });
+      }
+    </script>
+  </body>
 </html>
-</div>
