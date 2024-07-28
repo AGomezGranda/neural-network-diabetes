@@ -1,6 +1,5 @@
 from model import NeuralNetwork
 from data_loader import load_and_preprocess_data
-import os
 
 def train_model():
     # Cargar y preprocesar los datos

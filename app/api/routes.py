@@ -1,4 +1,3 @@
-# app/api/v1/endpoints.py
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse
 from ml.model import NeuralNetwork

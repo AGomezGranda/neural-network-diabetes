@@ -21,5 +21,7 @@ You can find the dataset [here](https://www.kaggle.com/datasets/akshaydattatrayk
 ## Technologies used
 
 - Python 3
-- NumPy
 - FastAPI
+- HTMX
+- NumPy
+- Pandas
